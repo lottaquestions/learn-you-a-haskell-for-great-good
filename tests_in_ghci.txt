@@ -1,0 +1,100 @@
+:quit
+quit
+exit
+:t trip'3 (\ ) (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (-3,-3)
+trip'4 (\ (x,y) -> case (min 4 (max 0 x) == x, min 4 (max 0 y) == y) of (True,True) -> Just (x,y); _ -> Nothing) (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (0,0)
+trip'4 (\ (x,y) -> case (min 4 (max 0 x) == x, min 4 (max 0 y) == y) of (True,True) -> Just (x,y); _ -> Nothing) (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (-3,-3)
+:t trip'4 (\ (x,y) -> case (min 4 (max 0 x) == x, min 4 (max 0 y) == y) of (True,True) -> Just (x,y); _ -> Nothing) (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (-3,-3)
+:t trip'4 (\ (x,y) -> case (min 4 (max 0 x) == x, min 4 (max 0 y) == y) of (True,True) -> Just (x,y); _ -> Nothing) (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (-3,-3)
+:t trip'3 (\ ) (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (-3,-3)
+trip'3 (\ (x,y) ) (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (-3,-3)
+:l chapter2_believe_the_type.hs 
+trip'3 (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (-3,-3)
+trip'3 (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (-1,-1)
+trip'3 (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (0,0)
+trip'3 (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (3,3)
+:t trip'3 (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1 (3,3)
+:t trip'3 (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4)) dirs'1
+:t trip'3 (\ (x,y) -> (min  (max x 0) 4, min (max y 0) 4))
+:l chapter2_believe_the_type.hs 
+fmap toEnum [1 .. 10] :: [Dir]
+:t fmap toEnum [1 .. 10] :: [Dir]
+:t fmap toEnum [1 .. 10]
+:t fmap
+:t [1 .. 10]
+[1 .. 10]
+mempty :: Dir
+:t mempty :: Dir
+:t mempty
+mempty Dir
+comb'3 N S
+:l chapter2_believe_the_type.hs 
+:i Eq
+toEnum 10 :: Dir
+:l chapter2_believe_the_type.hs 
+:l chapter2_believe_the_type.hs 
+:i Enum
+toEnum 10 :: Dir
+:t toEnum 10 :: Dir
+:t toEnum 3 :: Dir
+:m + chapter2_believe_the_type
+:m + chapter2_believe_the_type.hs 
+:m +chapter2_believe_the_type.hs 
+toEnum 3 :: Dir
+:l chapter2_believe_the_type.hs 
+toEnum 3 :: Dir
+:t toEnum 3
+:set -XExplicitForAll
+:t toEnum 3
+initials "Nicholas" "Othieno"
+:l syntax_in_functions.hs 
+86.0/124.0*3.0
+((*) 86.0 ((/) 3.0 124.0))
+foldMap toEnum [1 .. 3] :: Dir
+foldMap toEnum [1 .. 10] :: Dir
+:l chapter2_believe_the_type.hs 
+foldMap toEnum [1 .. 10] :: Dir
+:l chapter2_believe_the_type.hs 
+foldMap toEnum [1 .. 10] :: Dir
+:t foldMap toEnum [1 .. 10] :: Dir
+:t foldMap toEnum [1 .. 10]
+foldMap toEnum [1 .. 10]
+:t foldMap
+:t foldl
+:t fold
+:t stime
+bmiTell'''' 85 1.
+:t stimes
+bmiTell'''' 85 1.9
+:l syntax_in_functions.hs 
+greet "Oi"
+greet "Fernando"
+:l syntax_in_functions.hs 
+bmiTell''' 85 1.9
+:l syntax_in_functions.hs 
+bmiTell'' 85 1.9
+:l syntax_in_functions.hs 
+test1
+test1 = fmap (\x -> (fromEnum x) * 2) dirs 
+test1
+test1 = fmap (\x -> x) dirs 
+nums
+:l chapter2_believe_the_type.hs 
+comb'3 W S
+comb'3 N W
+comb'3 W W
+comb'3 N N
+:t comb'3
+:l chapter2_believe_the_type.hs 
+combineDirection W N
+combineDirection E W
+combineDirection a b = min a b
+combineDirection a b = min a b
+combineDirection :: Dir -> Dir -> Dir
+:t min
+maxBound :: Dir
+minBound :: Dir
+maxBound :: Ordering
+minBound :: Ordering
+maxBound :: Int
+minBound :: Int

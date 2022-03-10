@@ -124,3 +124,34 @@ calcBmis :: [(Double, Double)] -> [Double]
 calcBmis xs = [bmi w h | (w,h) <-xs ]
     where
       bmi weight height = weight / height ^ 2
+
+-- Let expressions
+cylinder :: Double -> Double -> Double
+cylinder r h =
+  let sideArea = 2 * pi * h
+      topArea = pi * r ^ 2
+  in sideArea + 2 * topArea
+
+-- 4 * (let a = 9 in a + 1)
+-- Using let to introduce a function in a local scope
+-- [let square x = x * x in (square 5, square 3, square 2)]
+-- Separating many let expressions inline with ;
+-- (let a = 100; b = 200; c = 300 in a * b * c, let foo = "Hey"; bar = "there!" in foo ++ bar)
+-- Using let in pattern matching
+-- ( let (a,b,c) = (1,2,3) in a+b+c)*100
+
+-- Let in list comprehensions
+calcBmis' :: [(Double, Double)] -> [Double]
+calcBmis' xs = [bmi | (w,h) <-xs, let bmi = w / h ^ 2]
+
+-- The let in a list comprehension produces a variable visible in the output and in the filter
+-- Note, that the variable from the let ie bmi is not visible in the generator part of
+-- the list comprehension ie in the (w,h) <-xs part
+calcBmis'Overweight :: [(Double, Double)] -> [Double]
+calcBmis'Overweight xs = [bmi | (w,h) <-xs, let bmi = w / h ^ 2, bmi > 25.0]
+
+-- Case expressions
+describeList :: [a] -> String
+describeList ls = "The list is " ++ case ls of [] -> "empty."
+                                               [x] -> "a singleton list"
+                                               xs -> "a longer list"

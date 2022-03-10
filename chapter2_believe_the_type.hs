@@ -144,4 +144,20 @@ trip'2 dirs pos = scanl step pos dirs
 
 -- A function that has constraints of how far in the (x,y) grid we can
 -- go. In other words, it has the boundaries of the grid we are in
---trip'3 :: ()
+
+trip'3 :: (Pos -> Pos) ->  Dirs -> Pos -> [Pos]
+trip'3  pred dirs pos = scanl step pos dirs
+  where
+    step (x,y) N = pred (x,y+1)
+    step (x,y) S = pred (x,y-1)
+    step (x,y) W = pred (x-1,y)
+    step (x,y) E = pred (x+1,y)
+
+-- Expressing a computation that might fail
+trip'4 :: (Pos -> Maybe Pos) -> (Pos -> Pos) ->  Dirs -> Pos -> Maybe [Pos]
+trip'4  pred clamper dirs pos = case pred pos of
+  Just pos' -> Just  (trip'3  clamper dirs pos')
+  Nothing -> Nothing
+-- case (min 4 (max 0 x) == x, min 4 (max 0 y) == y) of (True, True) -> Just (x,y); (_,_) -> Nothing
+
+-- case (min 4 (max 0 x) == x, min 4 (max 0 y) == y) of (True, True) -> Just (x,y); (  ,  ) -> Nothing
