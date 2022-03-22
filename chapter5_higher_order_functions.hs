@@ -105,3 +105,131 @@ flip' f = g
 
 flip'' :: (a -> b -> c) -> b -> a -> c
 flip'' f y x = f x y
+
+{--
+*Main> zip [1,2,3,4,5] "hello"
+zip [1,2,3,4,5] "hello"
+[(1,'h'),(2,'e'),(3,'l'),(4,'l'),(5,'o')]
+*Main> flip' zip [1,2,3,4,5] "hello"
+flip' zip [1,2,3,4,5] "hello"
+[('h',1),('e',2),('l',3),('l',4),('o',5)]
+*Main> zipWith div [2,2..] [10,8,6,4,2]
+zipWith div [2,2..] [10,8,6,4,2]
+[0,0,0,0,1]
+*Main> zipWith (flip' div) [2,2..] [10,8,6,4,2]
+zipWith (flip' div) [2,2..] [10,8,6,4,2]
+[5,4,3,2,1]
+
+--}
+
+-- The map function
+
+{--
+Prelude> map (+3) [1,5,3,1,6]
+map (+3) [1,5,3,1,6]
+[4,8,6,4,9]
+Prelude> map (++ "!") ["BIFF", "BANG", "POW"]
+map (++ "!") ["BIFF", "BANG", "POW"]
+["BIFF!","BANG!","POW!"]
+Prelude> map (replicate 3) [1 .. 6]
+map (replicate 3) [1 .. 6]
+[[1,1,1],[2,2,2],[3,3,3],[4,4,4],[5,5,5],[6,6,6]]
+Prelude> map (map (^2)) [ [1,2], [3,4,5,6], [7,8] ]
+map (map (^2)) [ [1,2], [3,4,5,6], [7,8] ]
+[[1,4],[9,16,25,36],[49,64]]
+Prelude> map fst [(1,2), (3,5), (6,3), (2,6), (2,5)]
+map fst [(1,2), (3,5), (6,3), (2,6), (2,5)]
+[1,3,6,2,2]
+
+-- The filter function
+Prelude> filter (>3) [1,5,3,2,1,6,4,3,2,1]
+filter (>3) [1,5,3,2,1,6,4,3,2,1]
+[5,6,4]
+Prelude> filter (==3) [1,2,3,4,5]
+filter (==3) [1,2,3,4,5]
+[3]
+Prelude> filter even [1 .. 10]
+filter even [1 .. 10]
+[2,4,6,8,10]
+Prelude> let notNull x = not (null x) in filter notNull [[1,2,3], [], [3,4,5], [2,2], [],[],[]]
+let notNull x = not (null x) in filter notNull [[1,2,3], [], [3,4,5], [2,2], [],[],[]]
+[[1,2,3],[3,4,5],[2,2]]
+Prelude> filter (`elem` ['a' .. 'z']) "u LaUgH aT mE BeCaUsE I aM diFfeRent"
+filter (`elem` ['a' .. 'z']) "u LaUgH aT mE BeCaUsE I aM diFfeRent"
+"uagameasadifeent"
+Prelude> filter (`elem` ['A' .. 'Z']) "i LAuGh at you bEcause u R all the same"
+filter (`elem` ['A' .. 'Z']) "i LAuGh at you bEcause u R all the same"
+"LAGER"
+
+Prelude> filter (<15) (filter even [1 .. 20])
+filter (<15) (filter even [1 .. 20])
+[2,4,6,8,10,12,14]
+Prelude> [x | x <- [1 .. 20], even x, x < 15]
+[x | x <- [1 .. 20], even x, x < 15]
+[2,4,6,8,10,12,14]
+
+--}
+
+-- Quicksort using filter
+quicksort :: (Ord a) => [a] -> [a]
+quicksort [] = []
+quicksort (x:xs) =
+  let smallerOrEqual = filter (<= x) xs
+      larger = filter (> x) xs
+  in quicksort smallerOrEqual ++ [x] ++ quicksort larger
+
+{--
+*Main> quicksort "i LAuGh at you bEcause u R all the same"
+quicksort "i LAuGh at you bEcause u R all the same"
+"         AEGLRaaaabceeehhillmossttuuuuy"
+
+--}
+largestDivisible :: Integer
+largestDivisible = head (filter p [99999,99998..])
+  where p x = x `mod` 3829 == 0
+
+-- takeWhile
+{--
+*Main> largestDivisible
+largestDivisible
+99554
+*Main> takeWhile (/=' ') "elephants know how to party"
+takeWhile (/=' ') "elephants know how to party"
+"elephants"
+*Main> sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+166650
+*Main> sum (takeWhile (<10000)  [m | m <- [n^2 | n <- [1..]], odd m])
+sum (takeWhile (<10000)  [m | m <- [n^2 | n <- [1..]], odd m])
+166650
+--}
+
+-- Collatz chain
+chain:: Integer -> [Integer]
+chain 1 = [1]
+chain n
+  | even n = n:chain (n `div` 2)
+  | odd n = n:chain (n*3 + 1)
+
+numLongChains :: Int
+numLongChains = length (filter isLong (map chain [1 .. 100]))
+  where isLong xs = length xs > 15
+
+{--
+*Main> chain 10
+chain 10
+[10,5,16,8,4,2,1]
+*Main> chain 1
+chain 1
+[1]
+*Main> chain 30
+chain 30
+[30,15,46,23,70,35,106,53,160,80,40,20,10,5,16,8,4,2,1]
+*Main> :l chapter5_higher_order_functions.hs
+:l chapter5_higher_order_functions.hs
+[1 of 1] Compiling Main             ( chapter5_higher_order_functions.hs, interpreted )
+Ok, one module loaded.
+*Main> numLongChains
+numLongChains
+66
+--}
