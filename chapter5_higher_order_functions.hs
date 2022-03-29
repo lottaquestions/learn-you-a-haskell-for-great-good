@@ -233,3 +233,32 @@ Ok, one module loaded.
 numLongChains
 66
 --}
+
+-- Mapping functions with multiple parameters'
+-- let listOfFuns = map (*) [0 ..]
+-- (listOfFuns !! 4) 5
+
+numLongChains' :: Int
+numLongChains' = length (filter (\xs -> length xs > 15) (map chain [1 .. 100]))
+
+-- Lambdas
+-- zipWith (\a b -> (a * 30 + 3) / b) [5, 4, 3, 2, 1] [1, 2, 3, 4, 5]
+
+-- Pattern matching with lambdas
+-- map (\(a,b) -> a + b) [(1,2), (3,5), (6,3), (2,6), (2,5)]
+
+-- Similar functions that show that currying is easy/default in Haskell
+
+addThree :: Int -> Int -> Int -> Int
+addThree x y z = x + y + z
+
+addThree' :: Int -> Int -> Int -> Int
+addThree' = \x -> \y -> \z -> x + y + z
+
+-- When currying notation improves readability
+
+flip''' :: (a -> b -> c) -> b -> a -> c
+flip''' f = \x y -> f y x
+
+-- zipWith (flip''' (++) ) [" love you ", " love me"] ["I", "You"]
+-- map (flip''' subtract 20) [1,2,3,4]
