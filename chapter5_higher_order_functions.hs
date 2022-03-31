@@ -262,3 +262,79 @@ flip''' f = \x y -> f y x
 
 -- zipWith (flip''' (++) ) [" love you ", " love me"] ["I", "You"]
 -- map (flip''' subtract 20) [1,2,3,4]
+
+-- Folding
+sum' :: (Num a) => [a] -> a
+sum' xs = foldl (\acc x -> x + acc) 0 xs
+
+-- *Main> sum' [3,5,2,1]
+-- sum' [3,5,2,1]
+-- 11
+
+-- Expressing sum' as using currying
+sum'' :: (Num a) => [a] -> a
+sum'' = foldl (+) 0
+
+{--
+*Main> sum'' [3,5,2,1]
+sum'' [3,5,2,1]
+11
+--}
+
+-- Implementing map function using foldr
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = foldr (\x acc -> f x : acc)  [] xs
+{--
+*Main> map (flip''' subtract 20) [1,2,3,4]
+map (flip''' subtract 20) [1,2,3,4]
+[19,18,17,16]
+*Main> map' (flip''' subtract 20) [1,2,3,4]
+map' (flip''' subtract 20) [1,2,3,4]
+[19,18,17,16]
+
+--}
+
+-- map function can be implemented using foldl and ++ but ++ is much slower than :
+-- so the preference is to use (:)
+map'' :: (a -> b) -> [a] -> [b]
+map'' f xs = foldl (\acc x -> acc ++ [f x]) [] xs
+{--
+*Main> map (flip''' subtract 20) [1,2,3,4]
+map (flip''' subtract 20) [1,2,3,4]
+[19,18,17,16]
+*Main> map'' (flip''' subtract 20) [1,2,3,4]
+map'' (flip''' subtract 20) [1,2,3,4]
+[19,18,17,16]
+
+--}
+
+-- Implementing elem using foldr
+elem' :: (Eq a) => a -> [a] -> Bool
+elem' y ys = foldr (\x acc -> if y == x then True else acc) False ys
+{--
+*Main> 5 `elem'` [1,2,5,3,4]
+5 `elem'` [1,2,5,3,4]
+True
+
+--}
+
+-- foldl1 and foldr1 fold without using an explicit initial accumulator, instead
+-- they use the first element of the list as the initial accumulator.
+-- The max function can be implemented using foldl1
+
+maximum' :: (Ord a) => [a] -> a
+maximum' = foldl1 max
+{--
+*Main> maximum' [1,10,3,5,6]
+maximum' [1,10,3,5,6]
+10
+--}
+
+-- Implementing reverse with a curried fold function
+reverse' :: [a] -> [a]
+reverse' = foldl (\acc x -> x : acc) []
+{--
+*Main> reverse' [1,2,3,4,5]
+reverse' [1,2,3,4,5]
+[5,4,3,2,1]
+--}
