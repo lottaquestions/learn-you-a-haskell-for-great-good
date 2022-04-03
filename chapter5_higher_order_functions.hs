@@ -338,3 +338,30 @@ reverse' = foldl (\acc x -> x : acc) []
 reverse' [1,2,3,4,5]
 [5,4,3,2,1]
 --}
+
+reverse'' :: [a] -> [a]
+reverse'' = foldl (flip (:) )[]
+
+{--
+*Main> reverse'' [1,2,3,4,5]
+reverse'' [1,2,3,4,5]
+[5,4,3,2,1]
+
+--}
+
+product' :: (Num a) => [a] -> a
+product' = foldl (*) 1
+{--
+*Main> product' [2,3,4]
+product' [2,3,4]
+24
+--}
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' p = foldr (\x acc -> if p x then x : acc else acc) []
+
+{--
+*Main> filter' (\x -> x>3) [1,2,3,4,5]
+filter' (\x -> x>3) [1,2,3,4,5]
+[4,5]
+
+--}
