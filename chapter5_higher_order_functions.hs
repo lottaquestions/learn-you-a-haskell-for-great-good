@@ -365,3 +365,93 @@ filter' (\x -> x>3) [1,2,3,4,5]
 [4,5]
 
 --}
+
+last' :: [a] -> a
+last' = foldl1 (\_ x -> x)
+{--
+*Main> last' [1,2,3,4,5]
+last' [1,2,3,4,5]
+5
+
+--}
+
+-- Folding infinite lists
+and' :: [Bool] -> Bool
+and' xs = foldr (&&) True xs
+{--
+*Main> and' (repeat False)
+and' (repeat False)
+False
+
+--}
+
+-- Scans
+
+{--
+*Main> scanl (+) 0 [3,5,2,1]
+scanl (+) 0 [3,5,2,1]
+[0,3,8,10,11]
+*Main> scanr (+) 0 [3,5,2,1]
+scanr (+) 0 [3,5,2,1]
+[11,8,3,1,0]
+*Main> scanl1 (+)  [3,5,2,1]
+scanl1 (+)  [3,5,2,1]
+[3,8,10,11]
+*Main> scanl1 (\acc x -> if x > acc then x else acc) [3,4,5,3,7,9,2,1]
+scanl1 (\acc x -> if x > acc then x else acc) [3,4,5,3,7,9,2,1]
+[3,4,5,5,7,9,9,9]
+*Main> scanl (flip (:)) [] [3,2,1]
+scanl (flip (:)) [] [3,2,1]
+[[],[3],[2,3],[1,2,3]]
+
+--}
+
+-- How many elements does it take for the sum of the square roots of all natural numbers
+-- to exceed 1000?
+sqrtSums :: Int
+sqrtSums = length ( takeWhile (< 1000) (scanl1 (+) (map sqrt [1..]))) + 1
+{--
+*Main> sqrtSums
+sqrtSums
+131
+*Main> sum (map sqrt [1..131])
+sum (map sqrt [1..131])
+1005.0942035344083
+*Main> sum (map sqrt [1..130])
+sum (map sqrt [1..130])
+993.6486803921487
+
+--}
+
+
+-- Function Application with $
+-- How $ is defined
+{--
+($) :: (a -> b) -> a -> b
+f $ x = f x
+
+--}
+
+-- $ is right-associative and is useful for removing parens to make code more readable
+{--
+
+This function below,
+Prelude> sum (filter (>10) (map (*2) [2 .. 10]))
+sum (filter (>10) (map (*2) [2 .. 10]))
+80
+
+Can be made more readable using the $
+Prelude> sum $ filter (>10) $ map (*2) [2 .. 10]
+sum $ filter (>10) $ map (*2) [2 .. 10]
+80
+
+--}
+
+-- $ lets us treat function application as any other function, so in the example
+-- below, we apply each of the functions in the list to 3
+
+{--
+Prelude> map ($ 3) [(4+), (10*), (^2), sqrt]
+map ($ 3) [(4+), (10*), (^2), sqrt]
+[7.0,30.0,9.0,1.7320508075688772]
+--}
