@@ -455,3 +455,41 @@ Prelude> map ($ 3) [(4+), (10*), (^2), sqrt]
 map ($ 3) [(4+), (10*), (^2), sqrt]
 [7.0,30.0,9.0,1.7320508075688772]
 --}
+
+-- Function composition
+{--
+map (negate . abs) [5, -3, -6, 7, -3, 2, -19, 24]
+
+map (negate . sum . tail) [[1..5], [3..6], [1..7]]
+
+Prelude> map (negate . sum . tail) [[1..5], [3..6], [1..7]]
+map (negate . sum . tail) [[1..5], [3..6], [1..7]]
+[-14,-15,-27]
+
+Prelude> map tail [[1..5], [3..6], [1..7]]
+map tail [[1..5], [3..6], [1..7]]
+[[2,3,4,5],[4,5,6],[2,3,4,5,6,7]]
+Prelude> map sum [[2,3,4,5],[4,5,6],[2,3,4,5,6,7]]
+
+map sum [[2,3,4,5],[4,5,6],[2,3,4,5,6,7]]
+[14,15,27]
+Prelude>
+Prelude> map negate [14,15,27]
+map negate [14,15,27]
+[-14,-15,-27]
+
+--}
+
+-- Function composition with multiple parameters
+{--
+Prelude> sum (replicate 5 (max 6.7 8.9))
+sum (replicate 5 (max 6.7 8.9))
+44.5
+Prelude> (sum . replicate 5) (max 6.7 8.9)
+(sum . replicate 5) (max 6.7 8.9)
+44.5
+Prelude> sum . replicate 5 $ max 6.7 8.9
+sum . replicate 5 $ max 6.7 8.9
+44.5
+
+--}
