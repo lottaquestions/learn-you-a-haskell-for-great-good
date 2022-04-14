@@ -482,14 +482,71 @@ map negate [14,15,27]
 
 -- Function composition with multiple parameters
 {--
+-- replacing the below function calls
 Prelude> sum (replicate 5 (max 6.7 8.9))
 sum (replicate 5 (max 6.7 8.9))
 44.5
+-- with this one
 Prelude> (sum . replicate 5) (max 6.7 8.9)
 (sum . replicate 5) (max 6.7 8.9)
 44.5
+-- or with this one
 Prelude> sum . replicate 5 $ max 6.7 8.9
 sum . replicate 5 $ max 6.7 8.9
 44.5
+
+-- Replacing the below chain of calls
+Prelude> replicate 2 (product (map (*3) (zipWith max [1,2] [4,5])))
+replicate 2 (product (map (*3) (zipWith max [1,2] [4,5])))
+[180,180]
+Prelude> zipWith max [1,2] [4,5]
+zipWith max [1,2] [4,5]
+[4,5]
+Prelude> map (*3) $ zipWith max [1,2] [4,5]
+map (*3) $ zipWith max [1,2] [4,5]
+[12,15]
+Prelude> product . map (*3) $ zipWith max [1,2] [4,5]
+product . map (*3) $ zipWith max [1,2] [4,5]
+180
+
+-- With these composed calls
+Prelude> replicate 2 . product . map (*3) $ zipWith max [1,2] [4,5]
+replicate 2 . product . map (*3) $ zipWith max [1,2] [4,5]
+[180,180]
+
+--}
+
+-- Point-free style
+-- Rewriting sum' in point-free style
+sum''' :: (Num a) => [a] -> a
+sum''' = foldl (+) 0
+
+
+fn x = ceiling (negate (tan (cos (max 50 x))))
+fn' = ceiling . negate . tan . cos . max 50
+
+oddSquareSum :: Integer
+oddSquareSum = sum (takeWhile (<1000) (filter odd (map (^2) [1..])))
+
+oddSquareSum' :: Integer
+oddSquareSum' = sum . takeWhile (<1000) . filter odd $ map (^2) [1..]
+
+{--
+-- Test cases for the above functions
+*Main> sum''' [10, 10, 10]
+sum''' [10, 10, 10]
+30
+*Main> fn 70
+fn 70
+0
+*Main> fn 40
+fn 40
+-1
+*Main> oddSquareSum
+oddSquareSum
+5456
+*Main> oddSquareSum'
+oddSquareSum'
+5456
 
 --}
