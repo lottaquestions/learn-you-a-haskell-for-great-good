@@ -104,3 +104,4 @@ removeNoneUpperCase st = [c | c<-st, c `elem` ['A'..'Z']]
 -- :t "Hello"
 -- :t (True, 'a')
 -- :t 4==5
+-- test
